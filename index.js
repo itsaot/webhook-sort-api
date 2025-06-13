@@ -1,5 +1,28 @@
 const express = require('express');
 const app = express();
+module.exports = (req, res) => {
+  console.log('Received request:', req.method);
+
+  let body = '';
+  req.on('data', chunk => {
+    body += chunk;
+  });
+
+  req.on('end', () => {
+    console.log('Raw body:', body);
+    try {
+      const data = JSON.parse(body);
+      console.log('Parsed JSON:', data);
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ received: data }));
+    } catch (err) {
+      console.error('JSON parse error:', err);
+      res.statusCode = 400;
+      res.end('Invalid JSON');
+    }
+  });
+};
 
 app.use(express.json());
 
