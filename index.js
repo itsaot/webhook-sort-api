@@ -14,10 +14,10 @@ app.post('/webhook', (req, res) => {
     res.status(200).json({ word: sortedChars });
 });
 
-module.exports = app;
-
 if (require.main === module) {
     app.listen(3000, () => {
-        console.log('Server running on http://localhost:3000');
+        console.log('Server running locally');
     });
 }
+
+module.exports = app;
